@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  数据统计页 stats.html · 我的小窝
+  ----------------------------------------------------------------------------
+  页面结构（从上到下）：
+    1. 顶部导航（由 assets/js/app.js 渲染，这里只留占位 div）
+    2. 宫崎骏风格内页背景（纯 SVG，无外部图片）
+    3. 页面标题卡片 #pageHead —— 由 main.js 的 Stats 模块填充
+    4. 数据总览：指标卡网格 #metricGrid（main.js 的 Stats.renderMetrics）
+    5. 文章分布：四张手写 SVG 图表，全部由 assets/js/charts.js 生成
+         · #chartCategory 各分类文章数量（柱状图）
+         · #chartDonut    分类占比（环形图）
+         · #chartTrend    发布时间趋势（面积折线图，最近 14 个月）
+         · #chartTags     标签使用次数 TOP 10（柱状图）
+       每张图外面套一层 #chartXxxWrap，鼠标悬停时的数值提示由 charts.js 的 bindTips 绑定
+    6. 数据亮点 #highlights —— main.js 挑出「篇幅最长的文章 / 更新最多的月份 / 最常用标签」等卡片
+    7. 年度汇总 #yearTable —— main.js 用一张表格列出每年的文章数、字数和占比
+    8. 页脚（同样由 app.js 渲染）
+
+  说明：页面上的数字没有一个写死的，全部由 assets/js/loader.js 从数据库
+        实时统计出来，所以新增一篇文章，这里的图表和表格会自动更新。
+  ============================================================================
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>统计 · 我的小窝</title>
+  <meta name="description" content="这个小站的数据统计：文章数量、标签分布、发布时间趋势图表。">
+  <meta name="theme-color" content="#bfe3f7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="统计 · 我的小窝">
+  <meta property="og:description" content="这个小站的数据统计：文章数量、标签分布、发布时间趋势图表。">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===================== 数据库设置 =====================
+       config.js 里填 Supabase 的网址和密钥；store.js 是数据库连接层。
+       这两个必须放在最前面，后面所有脚本都要用它们。 -->
+  <script src="content/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script>
+    /* 先别急着画导航，等 main.js 把数据库里的网站设置取回来再画 */
+    window.__NEST_DEFER_APP_BOOT = true;
+  </script>
+</head>
+
+<body data-page="stats">
+
+  <!-- 宫崎骏风格内页背景：蓝天白云 + 青草地 + 少女撑伞（纯 SVG，无外部图片） -->
+  <div class="bg-scene" aria-hidden="true"></div>
+
+  <!-- 顶部导航占位：内容由 assets/js/app.js 生成 -->
+  <header id="siteNav"></header>
+
+  <!-- 阅读进度条 -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <main>
+    <div class="container">
+
+      <!-- 页面标题卡片：标题、简介和统计小标签由 main.js（Stats 模块）填充 -->
+      <div id="pageHead"></div>
+
+      <!-- 数据总览：指标卡（文章数 / 标签数 / 分类数 / 总字数…）由 main.js 渲染 -->
+      <section class="section">
+        <div class="section__head">
+          <h2 class="section__title">数据总览</h2>
+        </div>
+        <div class="metric-grid" id="metricGrid"></div>
+      </section>
+
+      <!-- 文章分布：四张图表，里面的 SVG 全部由 assets/js/charts.js 画出来 -->
+      <section class="section">
+        <div class="section__head">
+          <h2 class="section__title">文章分布</h2>
+          <span class="section__more" style="cursor:default;opacity:.8">鼠标悬停柱子或圆点可看具体数值</span>
+        </div>
+
+        <div class="chart-grid">
+          <!-- 柱状图：各分类下有几篇文章 -->
+          <div class="chart-card glass reveal" id="chartCategoryWrap">
+            <div class="chart-card__head">
+              <h3 class="chart-card__title">各分类文章数量</h3>
+              <span class="chart-card__hint">柱状图</span>
+            </div>
+            <div class="chart-card__body" id="chartCategory"></div>
+          </div>
+
+          <!-- 环形图：各分类占总文章数的比例 -->
+          <div class="chart-card glass reveal" id="chartDonutWrap">
+            <div class="chart-card__head">
+              <h3 class="chart-card__title">分类占比</h3>
+              <span class="chart-card__hint">环形图</span>
+            </div>
+            <div class="chart-card__body" id="chartDonut"></div>
+          </div>
+
+          <!-- 面积折线图：按月统计的写作节奏，横跨整行 -->
+          <div class="chart-card glass reveal" id="chartTrendWrap" style="grid-column:1/-1">
+            <div class="chart-card__head">
+              <h3 class="chart-card__title">文章发布时间趋势</h3>
+              <span class="chart-card__hint">最近 14 个月 · 面积折线图</span>
+            </div>
+            <div class="chart-card__body" id="chartTrend"></div>
+          </div>
+
+          <!-- 柱状图：用得最多的十个标签，横跨整行 -->
+          <div class="chart-card glass reveal" id="chartTagsWrap" style="grid-column:1/-1">
+            <div class="chart-card__head">
+              <h3 class="chart-card__title">标签使用次数 TOP 10</h3>
+              <span class="chart-card__hint">柱状图</span>
+            </div>
+            <div class="chart-card__body" id="chartTags"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 数据亮点：篇幅最长的文章、更新最多的月份等小卡片，由 main.js 渲染 -->
+      <section class="section">
+        <div class="section__head">
+          <h2 class="section__title">数据亮点</h2>
+        </div>
+        <div class="post-grid" id="highlights"></div>
+      </section>
+
+      <!-- 年度汇总：每年的文章数、字数和占比表格，由 main.js 渲染 -->
+      <section class="section">
+        <div class="section__head">
+          <h2 class="section__title">年度汇总</h2>
+        </div>
+        <div class="glass" style="padding:18px 20px;border-radius:var(--r-lg)" id="yearTable"></div>
+        <p class="stats-note">数据由 assets/js/loader.js 从数据库实时计算，新增文章后自动更新。</p>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 页脚占位 -->
+  <footer id="siteFooter"></footer>
+
+  <!-- ===================== 脚本（顺序不能改） ===================== -->
+  <script src="content/site.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="content/moments.js"></script>
+  <script src="content/logs.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/highlight.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/rain.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

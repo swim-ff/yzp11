@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================================
+  宫崎骏风格内页背景 · scene-grassland.svg
+  ----------------------------------------------------------------------------
+  画面构成（从远到近）：
+    1. 渐变蓝天 + 太阳光晕
+    2. 远处山峦（雾蓝）
+    3. 积雨云 / 白云（会缓慢横向漂移）
+    4. 中景草坡 + 一棵小树
+    5. 少女撑伞（白裙、长发、红色油纸伞），阳光雨 + 彩虹
+    6. 近景深绿草坡 + 摇曳的草叶 + 光斑
+  纯矢量绘制，无外部依赖，可任意放大不失真；想换配色直接改 defs 里的渐变即可。
+  ============================================================================
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="蓝天白云下的青草地，一位少女撑着红伞站在草坡上">
+  <defs>
+    <!-- 天空：由深蓝到近地平线的暖白 -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4ea3e0"/>
+      <stop offset="34%" stop-color="#8dc9ee"/>
+      <stop offset="66%" stop-color="#c6e6f7"/>
+      <stop offset="100%" stop-color="#eef8ef"/>
+    </linearGradient>
+
+    <!-- 太阳光晕 -->
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#fff8dc" stop-opacity="0.95"/>
+      <stop offset="45%" stop-color="#ffeeb0" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ffeeb0" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 远山 -->
+    <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a9cfe4"/>
+      <stop offset="100%" stop-color="#cbe6ef"/>
+    </linearGradient>
+
+    <!-- 中景草坡 -->
+    <linearGradient id="hillMid" x1="0.15" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#bfe08f"/>
+      <stop offset="55%" stop-color="#96c96a"/>
+      <stop offset="100%" stop-color="#7ab857"/>
+    </linearGradient>
+
+    <!-- 近景深绿草坡 -->
+    <linearGradient id="hillNear" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#6faa4c"/>
+      <stop offset="60%" stop-color="#4d8a3c"/>
+      <stop offset="100%" stop-color="#35682d"/>
+    </linearGradient>
+
+    <!-- 云朵 -->
+    <linearGradient id="cloud" x1="0.1" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#f4fbff"/>
+      <stop offset="100%" stop-color="#dcecf7"/>
+    </linearGradient>
+
+    <!-- 红伞伞面 -->
+    <linearGradient id="umbrella" x1="0.2" y1="0" x2="0.85" y2="1">
+      <stop offset="0%" stop-color="#ff9a8f"/>
+      <stop offset="45%" stop-color="#ef5d55"/>
+      <stop offset="100%" stop-color="#c8403d"/>
+    </linearGradient>
+
+    <!-- 白裙 -->
+    <linearGradient id="dress" x1="0.2" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#f2f7fb"/>
+      <stop offset="100%" stop-color="#cddced"/>
+    </linearGradient>
+
+    <!-- 头发 -->
+    <linearGradient id="hair" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#5b4636"/>
+      <stop offset="60%" stop-color="#3f3126"/>
+      <stop offset="100%" stop-color="#2c2119"/>
+    </linearGradient>
+
+    <!-- 彩虹 -->
+    <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0%" stop-color="#ff8f8f"/>
+      <stop offset="28%" stop-color="#ffd67a"/>
+      <stop offset="52%" stop-color="#a8e39a"/>
+      <stop offset="76%" stop-color="#8fd0f0"/>
+      <stop offset="100%" stop-color="#c3a6f0"/>
+    </linearGradient>
+
+    <!-- 光斑 -->
+    <radialGradient id="bokeh" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 草坡前缘的柔光（让草坡与天空衔接自然） -->
+    <linearGradient id="grassRim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6ffe9" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#f6ffe9" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+    <filter id="softer" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+
+  <!-- ======================= 1. 天空与太阳 ======================= -->
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1180" cy="150" r="330" fill="url(#sun)"/>
+  <circle cx="1180" cy="150" r="52" fill="#fffdf2" opacity="0.9"/>
+
+  <!-- 远处的彩虹（阳光雨的浪漫） -->
+  <g opacity="0.35" fill="none" stroke="url(#rainbow)" stroke-linecap="round">
+    <path d="M60 520 A 470 470 0 0 1 900 300" stroke-width="14"/>
+    <path d="M92 540 A 440 440 0 0 1 880 330" stroke-width="10" opacity="0.75"/>
+  </g>
+
+  <!-- ======================= 2. 远山 ======================= -->
+  <path d="M0 470 L150 380 L280 445 L420 350 L560 452 L700 400 L860 470 L1000 405 L1160 470 L1320 410 L1460 470 L1600 430 L1600 640 L0 640 Z"
+        fill="url(#hillFar)" opacity="0.85"/>
+  <!-- 山顶薄雾 -->
+  <ellipse cx="820" cy="452" rx="620" ry="42" fill="#ffffff" opacity="0.5" filter="url(#softer)"/>
+
+  <!-- ======================= 3. 云（缓慢漂移） ======================= -->
+  <g fill="url(#cloud)">
+    <!-- 左侧大云 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0; 46 0; 0 0" dur="150s" repeatCount="indefinite"/>
+      <g opacity="0.95">
+        <ellipse cx="250" cy="180" rx="130" ry="62"/>
+        <ellipse cx="360" cy="150" rx="96" ry="74"/>
+        <ellipse cx="140" cy="200" rx="82" ry="46"/>
+        <ellipse cx="452" cy="196" rx="76" ry="40"/>
+        <ellipse cx="285" cy="230" rx="180" ry="34" opacity="0.9"/>
+      </g>
+    </g>
+    <!-- 右上云 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0; -38 0; 0 0" dur="118s" repeatCount="indefinite"/>
+      <g opacity="0.9">
+        <ellipse cx="1360" cy="118" rx="104" ry="48"/>
+        <ellipse cx="1268" cy="140" rx="72" ry="38"/>
+        <ellipse cx="1444" cy="150" rx="66" ry="32"/>
+      </g>
+    </g>
+    <!-- 中部小云 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0; 32 0; 0 0" dur="170s" repeatCount="indefinite"/>
+      <g opacity="0.8">
+        <ellipse cx="880" cy="250" rx="86" ry="34"/>
+        <ellipse cx="946" cy="232" rx="58" ry="28"/>
+        <ellipse cx="812" cy="262" rx="52" ry="24"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ======================= 4. 中景草坡 ======================= -->
+  <path d="M0 560 C 260 500 520 528 760 566 C 1010 606 1260 560 1600 512 L1600 900 L0 900 Z" fill="url(#hillMid)"/>
+  <path d="M0 560 C 260 500 520 528 760 566 C 1010 606 1260 560 1600 512 L1600 560 C 1250 600 1000 640 760 606 C 520 570 250 546 0 596 Z"
+        fill="url(#grassRim)" opacity="0.55"/>
+
+  <!-- 远处的小树（点缀） -->
+  <g transform="translate(268 500)" opacity="0.9">
+    <path d="M0 0 L0 -46" stroke="#6b5138" stroke-width="7" stroke-linecap="round"/>
+    <ellipse cx="0" cy="-62" rx="46" ry="34" fill="#7fbb5c"/>
+    <ellipse cx="-22" cy="-48" rx="30" ry="22" fill="#8fcb69"/>
+    <ellipse cx="24" cy="-50" rx="28" ry="20" fill="#6fae4f"/>
+  </g>
+  <!-- 远处灌木 -->
+  <g opacity="0.75">
+    <ellipse cx="1120" cy="536" rx="62" ry="24" fill="#7cbb5b"/>
+    <ellipse cx="1188" cy="544" rx="44" ry="18" fill="#6cab4d"/>
+    <ellipse cx="520" cy="580" rx="48" ry="18" fill="#82c05f"/>
+  </g>
+
+  <!-- ======================= 5. 少女撑伞 ======================= -->
+  <!-- 人物整体定位：站在中景草坡右侧（视觉重心偏右，给左侧文字卡片留白） -->
+  <g transform="translate(1090 392) scale(1.0)">
+    <!-- 地面投影 -->
+    <ellipse cx="6" cy="222" rx="66" ry="16" fill="#4b7d38" opacity="0.32" filter="url(#soft)"/>
+
+    <!-- 被风吹起的裙摆（白裙 + 淡蓝阴影） -->
+    <path d="M-26 96 C -16 78 16 78 26 96 C 44 150 52 186 40 214 C 16 222 -12 222 -38 214 C -50 184 -44 150 -26 96 Z"
+          fill="url(#dress)"/>
+    <path d="M-38 214 C -12 222 16 222 40 214 C 44 222 44 226 40 230 C 14 238 -12 238 -38 230 C -42 226 -42 222 -38 214 Z"
+          fill="#c9dcee" opacity="0.85"/>
+
+    <!-- 双腿（细，草叶会遮住脚踝） -->
+    <path d="M-8 210 L-10 244" stroke="#f0d8c4" stroke-width="11" stroke-linecap="round"/>
+    <path d="M12 210 L14 244" stroke="#f0d8c4" stroke-width="11" stroke-linecap="round"/>
+
+    <!-- 后侧长发（被风吹向左侧） -->
+    <path d="M-30 22 C -62 34 -74 74 -70 116 C -68 138 -58 152 -46 150 C -58 116 -54 74 -30 46 Z"
+          fill="url(#hair)" opacity="0.95"/>
+
+    <!-- 上身：淡米色上衣 -->
+    <path d="M-22 62 C -12 52 12 52 22 62 C 30 84 30 100 26 110 L-26 110 C -30 100 -30 84 -22 62 Z"
+          fill="#fdf6ea"/>
+    <path d="M-26 110 C -10 116 10 116 26 110 L 30 126 L -30 126 Z" fill="#f3e6d2"/>
+
+    <!-- 左臂：举伞（从肩到手肘再到伞柄） -->
+    <path d="M18 72 C 40 66 56 44 50 20" stroke="#fdf6ea" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <path d="M18 72 C 40 66 56 44 50 20" stroke="#eadcc6" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.5"/>
+    <circle cx="50" cy="18" r="7.5" fill="#f7dcc6"/>
+
+    <!-- 右臂：自然垂下 -->
+    <path d="M-22 74 C -38 84 -42 104 -36 122" stroke="#fdf6ea" stroke-width="13" stroke-linecap="round" fill="none"/>
+    <circle cx="-36" cy="124" r="7" fill="#f7dcc6"/>
+
+    <!-- 脖子 + 头 -->
+    <rect x="-6" y="48" width="12" height="14" rx="5" fill="#f0d3bd"/>
+    <ellipse cx="0" cy="30" rx="25" ry="27" fill="#fbe3d2"/>
+
+    <!-- 刘海与头发轮廓 -->
+    <path d="M-26 30 C -28 4 -12 -12 4 -12 C 22 -12 30 2 27 26 C 20 12 12 6 4 8 C -6 10 -14 18 -20 30 Z"
+          fill="url(#hair)"/>
+    <path d="M-26 28 C -30 46 -26 60 -20 66 C -24 48 -22 36 -18 26 Z" fill="url(#hair)"/>
+    <path d="M27 26 C 30 46 26 62 20 68 C 24 48 23 34 20 22 Z" fill="url(#hair)"/>
+    <path d="M-18 30 C -26 62 -22 92 -14 108 C -8 92 -12 58 -12 34 Z" fill="url(#hair)" opacity="0.95"/>
+
+    <!-- 五官（侧脸、闭眼微笑，治愈感） -->
+    <path d="M-4 30 C -1 27 3 27 6 30" stroke="#4a3527" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M11 30 C 14 27 18 27 20 30" stroke="#4a3527" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M4 42 C 8 45 13 45 16 42" stroke="#e08b86" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="-15" cy="40" rx="7" ry="4.5" fill="#ffb6ad" opacity="0.55"/>
+    <ellipse cx="22" cy="40" rx="6" ry="4" fill="#ffb6ad" opacity="0.5"/>
+
+    <!-- 红色油纸伞：伞面 + 伞骨 + 伞柄 -->
+    <g>
+      <!-- 伞面（带波浪裙边） -->
+      <path d="M-104 0 A 104 74 0 0 1 104 0 Q 91 22 78 0 Q 65 22 52 0 Q 39 22 26 0 Q 13 22 0 0 Q -13 22 -26 0 Q -39 22 -52 0 Q -65 22 -78 0 Q -91 22 -104 0 Z"
+            fill="url(#umbrella)"/>
+      <!-- 伞骨阴影 -->
+      <g stroke="#b03636" stroke-width="2" opacity="0.35" fill="none">
+        <path d="M0 -74 L0 0"/>
+        <path d="M-52 -55 L-52 0"/>
+        <path d="M52 -55 L52 0"/>
+        <path d="M-82 -32 L-78 0"/>
+        <path d="M82 -32 L78 0"/>
+      </g>
+      <!-- 伞顶小尖 -->
+      <path d="M0 -76 L0 -92" stroke="#a93232" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="0" cy="-95" r="6" fill="#ef5d55"/>
+      <!-- 伞柄（弯钩） -->
+      <path d="M0 -6 L0 18" stroke="#8a5a3b" stroke-width="6" stroke-linecap="round"/>
+      <path d="M0 16 C 0 30 -14 30 -14 18" stroke="#8a5a3b" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <!-- 伞面高光 -->
+      <path d="M-70 -40 A 88 60 0 0 1 -20 -66" stroke="#ffffff" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.45"/>
+    </g>
+  </g>
+
+  <!-- 阳光雨：细密的斜向雨丝（只在人物附近，营造太阳雨氛围） -->
+  <g stroke="#eaf6ff" stroke-width="2.4" stroke-linecap="round" opacity="0.5">
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 -40; 22 60; 0 -40" dur="3.6s" repeatCount="indefinite"/>
+      <path d="M700 250 l-14 34"/><path d="M760 300 l-14 34"/><path d="M830 232 l-14 34"/>
+      <path d="M900 320 l-14 34"/><path d="M976 268 l-14 34"/><path d="M1046 350 l-14 34"/>
+      <path d="M1120 288 l-14 34"/><path d="M1196 336 l-14 34"/><path d="M1268 262 l-14 34"/>
+      <path d="M1340 320 l-14 34"/><path d="M1410 250 l-14 34"/><path d="M1478 330 l-14 34"/>
+    </g>
+  </g>
+
+  <!-- ======================= 6. 近景深绿草坡 ======================= -->
+  <path d="M0 726 C 300 668 640 700 940 742 C 1200 778 1400 760 1600 726 L1600 900 L0 900 Z" fill="url(#hillNear)"/>
+  <path d="M0 726 C 300 668 640 700 940 742 C 1200 778 1400 760 1600 726 L1600 752 C 1400 786 1200 804 940 768 C 640 726 300 694 0 752 Z"
+        fill="#a8d67a" opacity="0.35"/>
+
+  <!-- 草叶：随风摇曳（transform-origin 在根部） -->
+  <g stroke-linecap="round" fill="none">
+    <g stroke="#3f7a33" stroke-width="5">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="-3 0 0; 3 0 0; -3 0 0" dur="5.5s" repeatCount="indefinite"/>
+        <path d="M120 900 C 132 830 118 800 138 762"/>
+        <path d="M200 900 C 210 838 196 806 214 774"/>
+        <path d="M320 900 C 334 842 316 812 338 780"/>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="3 0 0; -3 0 0; 3 0 0" dur="6.4s" repeatCount="indefinite"/>
+        <path d="M470 900 C 458 836 476 802 456 768"/>
+        <path d="M620 900 C 610 844 628 810 608 776"/>
+        <path d="M760 900 C 774 840 754 806 776 772"/>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="-2.4 0 0; 2.6 0 0; -2.4 0 0" dur="7.2s" repeatCount="indefinite"/>
+        <path d="M980 900 C 968 842 986 808 966 774"/>
+        <path d="M1140 900 C 1154 846 1134 812 1156 780"/>
+        <path d="M1300 900 C 1288 844 1306 812 1286 778"/>
+        <path d="M1470 900 C 1484 848 1464 814 1486 782"/>
+      </g>
+    </g>
+    <!-- 亮色草叶，增加层次 -->
+    <g stroke="#8ecf62" stroke-width="3.4" opacity="0.9">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="4 0 0; -3 0 0; 4 0 0" dur="5s" repeatCount="indefinite"/>
+        <path d="M60 900 C 74 852 56 826 76 794"/>
+        <path d="M260 900 C 272 856 254 830 274 800"/>
+        <path d="M400 900 C 412 858 394 832 414 802"/>
+        <path d="M560 900 C 548 856 566 830 546 800"/>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="-3.4 0 0; 3.4 0 0; -3.4 0 0" dur="6.8s" repeatCount="indefinite"/>
+        <path d="M700 900 C 714 854 696 828 716 798"/>
+        <path d="M860 900 C 848 856 866 830 846 800"/>
+        <path d="M1040 900 C 1054 856 1036 830 1056 800"/>
+        <path d="M1220 900 C 1208 858 1226 832 1206 802"/>
+        <path d="M1400 900 C 1414 858 1396 832 1416 802"/>
+        <path d="M1540 900 C 1528 858 1546 832 1526 802"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- 小野花 -->
+  <g>
+    <circle cx="238" cy="828" r="7" fill="#fff4c9"/><circle cx="238" cy="828" r="2.6" fill="#f0b23c"/>
+    <circle cx="336" cy="856" r="6" fill="#ffd9e6"/><circle cx="336" cy="856" r="2.4" fill="#f08fae"/>
+    <circle cx="700" cy="842" r="7" fill="#fff4c9"/><circle cx="700" cy="842" r="2.6" fill="#f0b23c"/>
+    <circle cx="900" cy="868" r="6" fill="#e3d9ff"/><circle cx="900" cy="868" r="2.4" fill="#a58fe0"/>
+    <circle cx="1240" cy="846" r="7" fill="#ffd9e6"/><circle cx="1240" cy="846" r="2.6" fill="#f08fae"/>
+    <circle cx="1460" cy="862" r="6" fill="#fff4c9"/><circle cx="1460" cy="862" r="2.4" fill="#f0b23c"/>
+  </g>
+
+  <!-- 光斑 / 蒲公英绒毛（漂浮） -->
+  <g fill="url(#bokeh)">
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0; 60 -50; 0 0" dur="26s" repeatCount="indefinite"/>
+      <circle cx="420" cy="700" r="16" opacity="0.7"/>
+      <circle cx="980" cy="640" r="12" opacity="0.6"/>
+      <circle cx="1320" cy="720" r="20" opacity="0.5"/>
+      <circle cx="160" cy="660" r="10" opacity="0.5"/>
+    </g>
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0; -46 -36; 0 0" dur="32s" repeatCount="indefinite"/>
+      <circle cx="620" cy="600" r="14" opacity="0.45"/>
+      <circle cx="1180" cy="560" r="11" opacity="0.4"/>
+      <circle cx="860" cy="760" r="18" opacity="0.35"/>
+    </g>
+  </g>
+
+  <!-- ======================= 7. 整体色调统一（暖阳滤镜） ======================= -->
+  <rect width="1600" height="900" fill="#fff3c4" opacity="0.06"/>
+</svg>

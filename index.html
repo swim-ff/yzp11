@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  首页 index.html · 我的小窝
+  ----------------------------------------------------------------------------
+  页面结构（从上到下）：
+    1. 顶部导航（由 assets/js/app.js 动态渲染，这里只留一个占位 div）
+    2. 首屏 Hero —— 墨绿色湖面下雨特效（canvas#heroCanvas 实时绘制）
+       · 居中大标题「欢迎来到我的小窝」
+       · 副标题 + 两个按钮
+       · 个人信息卡（头像 / 文章数 / 标签数 / 随笔数）
+    3. 主内容区（.home-body，深色玻璃主题）
+       · 最新博文：卡片列表（封面 + 标题 + 简介 + 发布时间），数据来自数据库
+       · 标签云：点击标签直接跳到博文页并自动筛选
+       · 快速导航：其他页面的入口卡片
+    4. 页脚（同样由 app.js 渲染）
+
+  【数据从哪来】
+    文章、随笔、相册这些内容都存在 Supabase 数据库里，
+    连接设置在 content/config.js；发文章请打开后台 admin.html。
+    首页上的文字（站名、欢迎语、个人介绍）在后台的「网站设置」里改。
+  ============================================================================
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>我的小窝</title>
+  <meta name="description" content="一个学生的编程与学习笔记小站，治愈系毛玻璃风格。">
+  <meta name="theme-color" content="#06231b">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="我的小窝">
+  <meta property="og:description" content="编程、学习笔记，以及一些生活碎片。">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===================== 数据库设置 =====================
+       config.js 里填 Supabase 的网址和密钥；store.js 是数据库连接层。
+       这两个必须放在最前面，后面所有脚本都要用它们。 -->
+  <script src="content/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script>
+    /* 告诉 app.js：先别急着画导航，等 main.js 把数据库里的网站设置取回来再画，
+       免得屏幕上先闪一下默认站名。 */
+    window.__NEST_DEFER_APP_BOOT = true;
+  </script>
+</head>
+
+<!-- data-page="home" 让脚本知道这是首页（导航栏在顶部时用浅色文字） -->
+<body data-page="home">
+
+  <!-- ===================== 1. 首屏：雨夜湖面 =====================
+       .bg-hero 里放 canvas，它固定在视口上（position: fixed），
+       所以滚动时雨夜背景不动，只有内容滚动，形成视差层次。 -->
+  <div class="bg-hero" aria-hidden="true">
+    <canvas id="heroCanvas"></canvas>
+  </div>
+
+  <!-- 顶部导航占位：内容由 assets/js/app.js 生成 -->
+  <header id="siteNav"></header>
+
+  <!-- 阅读进度条（随滚动增长） -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <main>
+    <section class="hero" id="hero">
+      <!-- 小徽章 -->
+      <span class="hero-eyebrow fade-up">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="heroEyebrow">Nice to meet you · 欢迎光临</span>
+      </span>
+
+      <!-- 大标题：每个字会被 JS 包一层做逐字浮动动画；文字在后台「网站设置」里改 -->
+      <h1 class="hero-title" id="heroTitle">欢迎来到我的小窝</h1>
+
+      <!-- 副标题 -->
+      <p class="hero-sub fade-up" id="heroSubtitle"></p>
+
+      <!-- 行动按钮 -->
+      <div class="hero-actions fade-up" id="heroActions"></div>
+
+      <!-- 个人信息卡：头像和介绍在后台「网站设置」里改；
+           下面的数字根据数据库里的真实内容实时统计 -->
+      <section class="hero-profile glass glass--dark lift" aria-label="个人信息">
+        <div class="hero-profile__avatar">
+          <img id="profileAvatar" src="assets/img/avatar.svg" alt="头像" width="92" height="92">
+        </div>
+        <div>
+          <h2 class="hero-profile__name" id="profileName"></h2>
+          <p class="hero-profile__role" id="profileRole"></p>
+          <p class="hero-profile__bio" id="profileBio"></p>
+          <div class="stat-row" id="profileStats"></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ===================== 2. 主内容区（深色玻璃主题） ===================== -->
+    <div class="home-body on-dark">
+      <div class="container" style="padding-top:52px;padding-bottom:40px">
+
+        <!-- ---------- 2.1 最新博文 ---------- -->
+        <section class="section" id="latestSection">
+          <div class="section__head">
+            <h2 class="section__title">最新博文</h2>
+            <a class="section__more" href="posts.html">查看全部 →</a>
+          </div>
+          <div class="post-grid" id="latestPosts">
+            <!-- JS 会往这里插入博文卡片；没有内容时显示引导提示 -->
+          </div>
+        </section>
+
+        <!-- ---------- 2.2 标签云 ---------- -->
+        <section class="section" id="tagSection">
+          <div class="section__head">
+            <h2 class="section__title">标签云</h2>
+            <span class="section__more" style="cursor:default;opacity:.8">点击标签筛选博文</span>
+          </div>
+          <div class="glass glass--dark lift" style="padding:20px 22px;border-radius:var(--r-lg)">
+            <div class="toolbar__chips" id="tagCloud" style="gap:9px"></div>
+          </div>
+        </section>
+
+        <!-- ---------- 2.3 其他页面入口 ---------- -->
+        <section class="section" id="exploreSection">
+          <div class="section__head">
+            <h2 class="section__title">去别处逛逛</h2>
+          </div>
+          <div class="post-grid" id="exploreGrid"></div>
+        </section>
+      </div>
+
+      <!-- 向下滚动提示 -->
+      <a class="scroll-hint" href="#latestSection" id="scrollHint" aria-label="向下滚动查看更多">
+        <span class="scroll-hint__mouse" aria-hidden="true"></span>
+        <span>向下滚动</span>
+      </a>
+    </div>
+  </main>
+
+  <!-- 页脚占位 -->
+  <footer id="siteFooter"></footer>
+
+  <!-- ===================== 脚本 =====================
+       顺序不能改：
+         config.js     数据库连接设置（你要填的那个文件）
+         store.js      数据库连接层
+         site.js       网站默认值（数据库里没设置的字段会用它兜底）
+         posts / moments / logs.js  占位文件（内容都在数据库里，留着避免 404）
+         ui / highlight / markdown / loader   工具与内容加工
+         charts / rain 图表与雨夜特效
+         app.js        导航、页脚、滚动交互
+         main.js       页面渲染入口（会先等数据库数据回来）
+  -->
+  <script src="content/site.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="content/moments.js"></script>
+  <script src="content/logs.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/highlight.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/rain.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

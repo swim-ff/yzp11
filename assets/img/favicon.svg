@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================================
+  站点图标 · favicon.svg
+  ----------------------------------------------------------------------------
+  一个墨绿屋顶 + 抹茶色门窗的小房子，呼应「我的小窝」。
+  浏览器标签页、手机桌面图标都会用它（矢量图，任何尺寸都清晰）。
+  ============================================================================
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#d9f2e4"/>
+      <stop offset="100%" stop-color="#a8dcc4"/>
+    </linearGradient>
+    <linearGradient id="roof" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2f8f6f"/>
+      <stop offset="100%" stop-color="#10493a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 圆形背景（像一枚小徽章） -->
+  <circle cx="32" cy="32" r="31" fill="url(#sky)"/>
+  <circle cx="32" cy="32" r="31" fill="none" stroke="#ffffff" stroke-opacity="0.6" stroke-width="2"/>
+
+  <!-- 屋顶 -->
+  <path d="M8 30 L32 11 L56 30" fill="none" stroke="url(#roof)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 屋身 -->
+  <path d="M14 29 V50 a3 3 0 0 0 3 3 h30 a3 3 0 0 0 3 -3 V29"
+        fill="#fdfcf7" stroke="#10493a" stroke-width="4" stroke-linejoin="round"/>
+  <!-- 门 -->
+  <path d="M26 53 v-9 a2 2 0 0 1 2 -2 h8 a2 2 0 0 1 2 2 v9"
+        fill="#a8cf8e" stroke="#10493a" stroke-width="3.4" stroke-linejoin="round"/>
+  <!-- 烟囱冒出的两缕烟 -->
+  <path d="M44 22 c3 -4 8 -3 9 -1" fill="none" stroke="#63b894" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================
+  站点地图 - sitemap.xml
+  ============================================================
+  帮助搜索引擎更快收录你的页面。
+
+  【重要】文章现在存在数据库里，这份文件不会自动更新。
+          文章页（post.html?p=xxx）收录与否影响不大，把下面的主要页面填对即可。
+          以后想加文章，照这样加一行：
+            <url><loc>https://你的网址/post.html?p=文章的slug</loc><priority>0.8</priority></url>
+
+  ⚠️ 记得把所有 https://example.github.io/my-nest/ 换成你的真实网址
+     （用编辑器的「查找替换」一次性改掉最快）。
+  ============================================================
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- ==================== 主要页面 ==================== -->
+  <url>    <loc>https://example.github.io/my-nest/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/my-nest/posts.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/my-nest/stats.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/my-nest/essays.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/my-nest/gallery.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/my-nest/friends.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/my-nest/log.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/my-nest/guestbook.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/my-nest/about.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!--
+    后台页面（admin.html）故意不写进来：
+    它带着 noindex 标记，也不应该被搜索引擎收录。
+  -->
+
+</urlset>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  友链页 friends.html · 我的小窝
+  ----------------------------------------------------------------------------
+  页面结构（从上到下）：
+    1. 顶部导航（由 assets/js/app.js 渲染）
+    2. 宫崎骏风格内页背景
+    3. 页面标题卡片 #pageHead —— 标题、简介和朋友数量由 main.js（Friends 模块）填充
+    4. 友链卡片网格 #friendGrid —— main.js 在这里插入 .link-card，整张卡片可点击、新窗口打开
+    5. 交换友链的说明与申请入口 #friendApply —— 同样由 main.js 渲染，
+       里面写清楚了需要提供哪些信息，以及去留言板或发邮件的按钮
+    6. 页脚（同样由 app.js 渲染）
+
+  说明：友链存在数据库里，在后台「友链」标签添加。
+  ============================================================================
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>友链 · 我的小窝</title>
+  <meta name="description" content="小伙伴们的站点，欢迎交换友链。">
+  <meta name="theme-color" content="#bfe3f7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="友链 · 我的小窝">
+  <meta property="og:description" content="小伙伴们的站点，欢迎交换友链。">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===================== 数据库设置 =====================
+       config.js 里填 Supabase 的网址和密钥；store.js 是数据库连接层。
+       这两个必须放在最前面，后面所有脚本都要用它们。 -->
+  <script src="content/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script>
+    /* 先别急着画导航，等 main.js 把数据库里的网站设置取回来再画 */
+    window.__NEST_DEFER_APP_BOOT = true;
+  </script>
+</head>
+
+<body data-page="friends">
+
+  <!-- 宫崎骏风格内页背景：蓝天白云 + 青草地 + 少女撑伞（纯 SVG，无外部图片） -->
+  <div class="bg-scene" aria-hidden="true"></div>
+
+  <!-- 顶部导航占位：内容由 assets/js/app.js 生成 -->
+  <header id="siteNav"></header>
+
+  <!-- 阅读进度条 -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <main>
+    <div class="container">
+
+      <!-- 页面标题卡片：标题、简介和朋友数量由 main.js（Friends 模块）填充 -->
+      <div id="pageHead"></div>
+
+      <!-- 友链卡片网格：main.js 在这里插入 .link-card，整卡可点，新窗口打开 -->
+      <div class="link-grid" id="friendGrid"></div>
+
+      <!-- 交换友链的说明：需要提供哪些信息 + 去留言板 / 发邮件的按钮，由 main.js 渲染 -->
+      <section class="section" style="margin-top:36px">
+        <div id="friendApply"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 页脚占位 -->
+  <footer id="siteFooter"></footer>
+
+  <!-- ===================== 脚本（顺序不能改） ===================== -->
+  <script src="content/site.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="content/moments.js"></script>
+  <script src="content/logs.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/highlight.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/rain.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

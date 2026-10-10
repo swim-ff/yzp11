@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  后台管理 admin.html · 我的小窝
+  ----------------------------------------------------------------------------
+  这是你自己的「写作后台」：发文章、传照片、加友链、改网站设置都在这里。
+  别人打不开它 —— 没有你的邮箱密码，登录不进去。
+
+  页面结构：
+    1. 内页背景（宫崎骏草原，和前台一致）
+    2. 顶部导航（由 assets/js/app.js 渲染）
+    3. 主体 #adminApp
+       · 数据库没连上 → 显示「怎么连数据库」的引导（assets/admin/admin.js 里）
+       · 没登录      → 显示登录框
+       · 已登录      → 显示七个功能标签页
+                       （博文 / 随笔 / 相册 / 更新日志 / 留言 / 友链 / 网站设置）
+    4. 页脚（同样由 app.js 渲染）
+
+  【怎么用】打开 你的网站地址/admin.html → 用 Supabase 里建的账号登录
+           详细步骤看跟网站放在一起的《新手操作手册.md》
+  ============================================================================
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>写作后台 · 我的小窝</title>
+  <meta name="description" content="网站管理后台">
+  <!-- 后台不需要被搜索引擎收录，加这行让爬虫不要进来 -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#bfe3f7">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <!-- 前台的样式（毛玻璃、按钮、卡片都在这里） -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- 后台专用的补充样式（不影响前台外观） -->
+  <link rel="stylesheet" href="assets/admin/admin.css">
+
+  <!-- 数据库设置与连接层，必须放在最前面 -->
+  <script src="content/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <!-- 注意：后台不加载 main.js（那是前台页面逻辑）。
+       app.js 会正常渲染导航和页脚，因为它需要 #siteNav 和 #siteFooter。 -->
+</head>
+
+<body data-page="admin">
+
+  <!-- 内页背景：蓝天白云 + 青草地（和前台一致） -->
+  <div class="bg-scene" aria-hidden="true"></div>
+
+  <!-- 顶部导航占位：内容由 assets/js/app.js 生成 -->
+  <header id="siteNav"></header>
+
+  <main>
+    <div class="container">
+      <!-- 后台的界面全部由 assets/admin/admin.js 渲染到这里 -->
+      <div id="adminApp"></div>
+    </div>
+  </main>
+
+  <!-- 页脚占位 -->
+  <footer id="siteFooter"></footer>
+
+  <!-- ===================== 脚本 =====================
+       顺序：数据库连接（head 里已加载）→ 内容兜底 → 工具 → 前台外壳 → 后台逻辑 -->
+  <script src="content/site.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="content/moments.js"></script>
+  <script src="content/logs.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/highlight.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/admin/admin.js"></script>
+</body>
+</html>

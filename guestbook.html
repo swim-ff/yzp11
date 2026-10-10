@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  留言板 guestbook.html · 我的小窝
+  ----------------------------------------------------------------------------
+  页面结构（从上到下）：
+    1. 顶部导航（由 assets/js/app.js 渲染）
+    2. 宫崎骏风格内页背景
+    3. 页面标题卡片 #pageHead —— 标题、简介和提示由 main.js（Guestbook 模块）填充
+    4. 留言表单 #gbForm —— 昵称 + 留言内容 + 字数统计 + 发布按钮，
+       由 main.js 渲染并绑定校验（昵称必填、内容长度限制）
+    5. 站长留言 #gbPinned —— 内容取自后台「网站设置」里的站长留言
+    6. 留言列表 #gbList —— main.js 从数据库读取留言并按时间倒序渲染
+    7. 页脚（同样由 app.js 渲染）
+
+  说明：留言真的存在数据库里，所有人都能看到（和以前只存在自己浏览器里不一样了）。
+        删除留言只有登录后台的你能做。
+  ============================================================================
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>留言板 · 我的小窝</title>
+  <meta name="description" content="欢迎留言：吐槽、建议、交换友链都可以。">
+  <meta name="theme-color" content="#bfe3f7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="留言板 · 我的小窝">
+  <meta property="og:description" content="欢迎留言：吐槽、建议、交换友链都可以。">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===================== 数据库设置 =====================
+       config.js 里填 Supabase 的网址和密钥；store.js 是数据库连接层。
+       这两个必须放在最前面，后面所有脚本都要用它们。 -->
+  <script src="content/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script>
+    /* 先别急着画导航，等 main.js 把数据库里的网站设置取回来再画 */
+    window.__NEST_DEFER_APP_BOOT = true;
+  </script>
+</head>
+
+<body data-page="guestbook">
+
+  <!-- 宫崎骏风格内页背景：蓝天白云 + 青草地 + 少女撑伞（纯 SVG，无外部图片） -->
+  <div class="bg-scene" aria-hidden="true"></div>
+
+  <!-- 顶部导航占位：内容由 assets/js/app.js 生成 -->
+  <header id="siteNav"></header>
+
+  <!-- 阅读进度条 -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <main>
+    <div class="container">
+
+      <!-- 页面标题卡片：标题、简介和「无需登录即可留言」等提示由 main.js 填充 -->
+      <div id="pageHead"></div>
+
+      <!-- 留言表单：昵称 / 内容 + 字数计数器 + 发布按钮，由 main.js 渲染并绑定校验 -->
+      <div id="gbForm"></div>
+
+      <!-- 站长留言：内容取自后台「网站设置」里的站长留言（没有就留空） -->
+      <div class="gb-list" id="gbPinned" style="margin-bottom:22px"></div>
+
+      <!-- 留言列表：main.js 从数据库读取留言，按时间倒序渲染 -->
+      <div class="gb-list" id="gbList"></div>
+
+    </div>
+  </main>
+
+  <!-- 页脚占位 -->
+  <footer id="siteFooter"></footer>
+
+  <!-- ===================== 脚本（顺序不能改） ===================== -->
+  <script src="content/site.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="content/moments.js"></script>
+  <script src="content/logs.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/highlight.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/rain.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

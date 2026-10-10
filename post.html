@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  博文详情页 post.html · 我的小窝
+  ----------------------------------------------------------------------------
+  页面结构（从上到下）：
+    1. 顶部导航（由 assets/js/app.js 渲染）
+    2. 宫崎骏风格内页背景
+    3. 返回列表按钮（窄版容器，只放一个按钮）
+    4. 文章主体 #postDetail —— 全部由 main.js 的 Post 模块渲染，包含：
+         · 文章头部（分类、日期、阅读时长、字数、浏览量、标题、简介、标签）
+         · 封面图
+         · 正文 + 侧边栏（markdown 由 assets/js/markdown.js 渲染，
+           代码高亮由 highlight.js 处理，目录支持滚动高亮）
+         · 正文底部的操作按钮（标记已读 / 分享）
+         · 上一篇 / 下一篇
+         · 评论区（留言存在数据库里，所有人可见）
+         · 相关推荐
+    5. 页脚（同样由 app.js 渲染）
+
+  说明：这个页面靠网址参数 ?p=文章标识 决定显示哪一篇，
+        文章正文是浏览器从数据库取回来实时渲染的。
+        正文容器故意用了普通宽度的 .container，让文章排版更舒展。
+  ============================================================================
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>博文详情 · 我的小窝</title>
+  <meta name="description" content="文章正文，支持 markdown 渲染与代码块语法高亮。">
+  <meta name="theme-color" content="#bfe3f7">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="博文详情 · 我的小窝">
+  <meta property="og:description" content="文章正文，支持 markdown 渲染与代码块语法高亮。">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===================== 数据库设置 =====================
+       config.js 里填 Supabase 的网址和密钥；store.js 是数据库连接层。
+       这两个必须放在最前面，后面所有脚本都要用它们。 -->
+  <script src="content/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script>
+    /* 先别急着画导航，等 main.js 把数据库里的网站设置取回来再画 */
+    window.__NEST_DEFER_APP_BOOT = true;
+  </script>
+</head>
+
+<body data-page="post">
+
+  <!-- 宫崎骏风格内页背景：蓝天白云 + 青草地 + 少女撑伞（纯 SVG，无外部图片） -->
+  <div class="bg-scene" aria-hidden="true"></div>
+
+  <!-- 顶部导航占位：内容由 assets/js/app.js 生成 -->
+  <header id="siteNav"></header>
+
+  <!-- 阅读进度条：读长文章时能看出读到哪了 -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <main>
+    <!-- 返回列表：窄版容器，只放一个按钮，让正文区域更宽一点 -->
+    <div class="container container--narrow">
+      <p style="margin:16px 0 0"><a class="btn" href="posts.html">← 返回博文列表</a></p>
+    </div>
+
+    <!-- 文章内容：main.js 根据网址参数 ?p=文章标识 渲染 -->
+    <div class="container" id="postDetail" style="margin-top:18px"></div>
+  </main>
+
+  <!-- 页脚占位 -->
+  <footer id="siteFooter"></footer>
+
+  <!-- ===================== 脚本（顺序不能改） ===================== -->
+  <script src="content/site.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="content/moments.js"></script>
+  <script src="content/logs.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/highlight.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/rain.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  相册页 gallery.html · 我的小窝
+  ----------------------------------------------------------------------------
+  页面结构（从上到下）：
+    1. 顶部导航（由 assets/js/app.js 渲染）
+    2. 宫崎骏风格内页背景
+    3. 页面标题卡片 #pageHead —— 标题、简介和照片张数由 main.js（Gallery 模块）填充
+    4. 相册网格 #galleryGrid —— main.js 在这里插入 .gallery__item，
+       点击任意一张会打开灯箱放大显示（灯箱由 app.js 的 initLightbox 生成）
+    5. 页脚（同样由 app.js 渲染）
+
+  说明：照片存在 Supabase 的图片仓库里，在后台「相册」标签上传。
+        如果某个条目没有填图片地址，会自动用代码生成的插画代替。
+  ============================================================================
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>相册 · 我的小窝</title>
+  <meta name="description" content="随手记录的画面，点击可放大查看。">
+  <meta name="theme-color" content="#bfe3f7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="相册 · 我的小窝">
+  <meta property="og:description" content="随手记录的画面，点击可放大查看。">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===================== 数据库设置 =====================
+       config.js 里填 Supabase 的网址和密钥；store.js 是数据库连接层。
+       这两个必须放在最前面，后面所有脚本都要用它们。 -->
+  <script src="content/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script>
+    /* 先别急着画导航，等 main.js 把数据库里的网站设置取回来再画 */
+    window.__NEST_DEFER_APP_BOOT = true;
+  </script>
+</head>
+
+<body data-page="gallery">
+
+  <!-- 宫崎骏风格内页背景：蓝天白云 + 青草地 + 少女撑伞（纯 SVG，无外部图片） -->
+  <div class="bg-scene" aria-hidden="true"></div>
+
+  <!-- 顶部导航占位：内容由 assets/js/app.js 生成 -->
+  <header id="siteNav"></header>
+
+  <!-- 阅读进度条 -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <main>
+    <div class="container">
+
+      <!-- 页面标题卡片：标题、简介和照片张数由 main.js（Gallery 模块）填充 -->
+      <div id="pageHead"></div>
+
+      <!-- 相册网格：main.js 在这里插入 .gallery__item，点击图片由 app.js 的灯箱放大显示 -->
+      <div class="gallery" id="galleryGrid"></div>
+
+    </div>
+  </main>
+
+  <!-- 页脚占位 -->
+  <footer id="siteFooter"></footer>
+
+  <!-- ===================== 脚本（顺序不能改） ===================== -->
+  <script src="content/site.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="content/moments.js"></script>
+  <script src="content/logs.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/highlight.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/rain.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

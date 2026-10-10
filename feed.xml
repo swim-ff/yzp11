@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================
+  RSS 订阅源 - feed.xml
+  ============================================================
+  让读者可以用阅读器（Feedly / Inoreader / 手机 RSS App）订阅你的博客。
+
+  【重要】你的文章现在存在数据库里，所以这份文件**不会自动更新**。
+          它是给搜索引擎和阅读器看的一个「门牌」。
+          想让它有内容，就手动往下面的 channel 里加 item（最新放最前面）：
+
+            <item>
+              <title>文章标题</title>
+              <link>https://你的网址/post.html?p=文章的slug</link>
+              <guid isPermaLink="false">my-nest-文章的slug</guid>
+              <pubDate>Thu, 01 Jan 2026 12:00:00 +0800</pubDate>
+              <category>分类</category>
+              <description>一句话简介</description>
+            </item>
+
+          文章的 slug 可以在后台「博文」列表里看到，
+          或者打开文章后看网址里 ?p= 后面的那一串。
+
+  另外记得：把所有 https://example.github.io/my-nest/ 换成你的真实网址。
+  ============================================================
+-->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>我的小窝</title>
+    <link>https://example.github.io/my-nest/</link>
+    <description>一个学生的编程与学习笔记小站。</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 01 Jan 2026 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://example.github.io/my-nest/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <!-- 文章条目从下面开始加，最新的放最前面。
+
+         模板（把这段复制出去、去掉注释符号再用）：
+
+         item 里依次放：title 标题 / link 文章网址 / guid 唯一标识 /
+         pubDate 发布时间 / category 分类 / description 简介 -->
+    <item>
+      <title>我的小窝开张了</title>
+      <link>https://example.github.io/my-nest/</link>
+      <guid isPermaLink="false">my-nest-hello</guid>
+      <pubDate>Thu, 01 Jan 2026 12:00:00 +0800</pubDate>
+      <category>公告</category>
+      <description>网站刚刚建好，接下来会在这里记录我的学习笔记。这条示例请在后台发第一篇文章后自行替换或删除。</description>
+    </item>
+
+  </channel>
+</rss>

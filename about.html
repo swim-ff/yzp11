@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  关于我页 about.html · 我的小窝
+  ----------------------------------------------------------------------------
+  页面结构（从上到下）：
+    1. 顶部导航（由 assets/js/app.js 渲染）
+    2. 宫崎骏风格内页背景
+    3. 页面标题卡片 #pageHead —— 由 main.js（About 模块）填充
+    4. 关于内容 #aboutContent —— 由 main.js 渲染成一个左右两栏的网格：
+         · 左栏：我是谁（自我介绍 + 联系方式按钮）、我的时间线、这个小站用到的技术
+         · 右栏：技能熟练度进度条、小档案（所在地、当前状态、兴趣爱好、本站数据）、联系方式
+    5. 页脚（同样由 app.js 渲染）
+
+  说明：自我介绍、所在地、联系方式、技能条、成长时间线这些文字，
+        全部来自后台「网站设置」里的「关于我 / 个人信息」，
+        想改名字、换头像、加邮箱，去后台改一次就够了。
+  ============================================================================
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>关于我 · 我的小窝</title>
+  <meta name="description" content="关于小窝主人：一份自我介绍、技能与联系方式，以及这座小站的搭建说明。">
+  <meta name="theme-color" content="#bfe3f7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="关于我 · 我的小窝">
+  <meta property="og:description" content="关于小窝主人：一份自我介绍、技能与联系方式，以及这座小站的搭建说明。">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===================== 数据库设置 =====================
+       config.js 里填 Supabase 的网址和密钥；store.js 是数据库连接层。
+       这两个必须放在最前面，后面所有脚本都要用它们。 -->
+  <script src="content/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script>
+    /* 先别急着画导航，等 main.js 把数据库里的网站设置取回来再画 */
+    window.__NEST_DEFER_APP_BOOT = true;
+  </script>
+</head>
+
+<body data-page="about">
+
+  <!-- 宫崎骏风格内页背景：蓝天白云 + 青草地 + 少女撑伞（纯 SVG，无外部图片） -->
+  <div class="bg-scene" aria-hidden="true"></div>
+
+  <!-- 顶部导航占位：内容由 assets/js/app.js 生成 -->
+  <header id="siteNav"></header>
+
+  <!-- 阅读进度条 -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <main>
+    <div class="container">
+
+      <!-- 页面标题卡片：标题和简介由 main.js（About 模块）填充 -->
+      <div id="pageHead" style="margin-bottom:26px"></div>
+
+      <!-- 关于内容：自我介绍、时间线、技能条、小档案、联系方式，全部由 main.js 渲染 -->
+      <div id="aboutContent"></div>
+
+    </div>
+  </main>
+
+  <!-- 页脚占位 -->
+  <footer id="siteFooter"></footer>
+
+  <!-- ===================== 脚本（顺序不能改） ===================== -->
+  <script src="content/site.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="content/moments.js"></script>
+  <script src="content/logs.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/highlight.js"></script>
+  <script src="assets/js/markdown.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/rain.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

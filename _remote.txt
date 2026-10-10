@@ -1,0 +1,7 @@
+✅ 表 posts        → HTTP 200 存在
+⚠️  表 notes        → <urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>（这边网络到 Supabase 不稳定，不代表你的表有问题）
+✅ 表 comments     → HTTP 200 存在
+✅ 表 site_config  → HTTP 200 存在
+⚠️  表 gallery      → <urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>（这边网络到 Supabase 不稳定，不代表你的表有问题）
+⚠️  表 friends      → <urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>（这边网络到 Supabase 不稳定，不代表你的表有问题）
+✅ 表 logs         → HTTP 200 存在

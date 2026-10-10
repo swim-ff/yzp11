@@ -1,0 +1,374 @@
+/* ============================================================================
+ * 后台管理页面样式 · assets/admin/admin.css
+ * ----------------------------------------------------------------------------
+ * 说明：这个文件只作用于 /admin.html（后台），
+ *       网站前台（首页、博文页那些）完全不受影响，风格一行都没动。
+ *
+ * 后台复用了前台的毛玻璃卡片、按钮、输入框等样式（style.css），
+ * 这里只补充后台特有的布局：登录门、顶部条、标签页、文章编辑器、列表。
+ * ========================================================================== */
+
+/* ==========================================================================
+ * 1. 顶部小条（告诉你现在在后台，以及数据库连上没有）
+ * ========================================================================== */
+.adm-topbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border-radius: var(--r-lg);
+}
+.adm-topbar__title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-size: 1.12rem;
+  font-family: var(--font-round);
+}
+.adm-topbar__spacer { flex: 1; }
+
+/* 数据库状态小圆点 */
+.adm-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.6px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: var(--c-ink-soft);
+}
+.adm-dot i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c9d6d1;
+  flex: none;
+}
+.adm-dot--ok i { background: #2f8f6f; box-shadow: 0 0 0 3px rgba(47, 143, 111, 0.2); }
+.adm-dot--bad i { background: #ef8fae; box-shadow: 0 0 0 3px rgba(239, 143, 174, 0.2); }
+
+/* ==========================================================================
+ * 2. 登录门
+ * ========================================================================== */
+.adm-login {
+  max-width: 460px;
+  margin: 40px auto;
+  padding: 30px 32px 26px;
+  border-radius: var(--r-xl);
+  text-align: center;
+}
+.adm-login__logo { font-size: 2.4rem; line-height: 1; }
+.adm-login__title { margin: 12px 0 6px; font-size: 1.4rem; }
+.adm-login__desc { margin: 0 0 20px; font-size: 13.6px; color: var(--c-ink-mute); }
+.adm-login .field { text-align: left; }
+.adm-login__field { margin-bottom: 14px; text-align: left; }
+.adm-login__msg {
+  min-height: 22px;
+  margin: 12px 0 0;
+  font-size: 13.2px;
+  color: #c2506f;
+}
+.adm-login__msg.is-ok { color: #2f8f6f; }
+.adm-login__help {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.7);
+  font-size: 12.6px;
+  color: var(--c-ink-faint);
+  text-align: left;
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+ * 3. 标签页导航
+ * ========================================================================== */
+.adm-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.adm-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  color: var(--c-ink-soft);
+  font-size: 13.6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--trans), background var(--trans), color var(--trans);
+}
+.adm-tab:hover { transform: translateY(-2px); color: var(--c-lake-600); }
+.adm-tab.is-active {
+  background: linear-gradient(135deg, var(--c-lake-400), var(--c-lake-600));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(16, 73, 58, 0.24);
+}
+
+/* ==========================================================================
+ * 4. 面板布局：左边列表，右边表单
+ * ========================================================================== */
+.adm-panel { display: none; }
+.adm-panel.is-active { display: block; }
+
+.adm-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: var(--gap);
+  align-items: start;
+}
+
+.adm-card {
+  padding: 20px 22px;
+  border-radius: var(--r-lg);
+}
+.adm-card--wide { grid-column: 1 / -1; }
+.adm-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.adm-card__head h3 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+.adm-card__head .spacer { flex: 1; }
+.adm-hint {
+  margin: 0 0 12px;
+  font-size: 12.8px;
+  line-height: 1.7;
+  color: var(--c-ink-faint);
+}
+
+/* 表单行 */
+.adm-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.adm-field { margin-bottom: 12px; }
+.adm-field .field-label { margin-bottom: 6px; }
+.adm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.adm-actions .spacer { flex: 1; }
+.adm-msg {
+  min-height: 20px;
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #2f8f6f;
+}
+.adm-msg.is-bad { color: #c2506f; }
+
+/* ==========================================================================
+ * 5. 内容列表（每一行：标题 + 日期 + 操作按钮）
+ * ========================================================================== */
+.adm-list { display: grid; gap: 10px; max-height: 62vh; overflow: auto; padding-right: 4px; }
+.adm-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  transition: transform var(--trans), background var(--trans);
+}
+.adm-item:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.75); }
+.adm-item__thumb {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(150deg, #a8cf8e, #2f8f6f);
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  color: #fff;
+}
+.adm-item__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.adm-item__main { flex: 1; min-width: 0; }
+.adm-item__title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.adm-item__meta {
+  font-size: 12px;
+  color: var(--c-ink-faint);
+  margin-top: 3px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.adm-item__ops { display: flex; gap: 6px; flex: none; }
+.adm-mini {
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--c-ink-soft);
+  font-size: 12.2px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--trans), color var(--trans), transform var(--trans);
+}
+.adm-mini:hover { transform: translateY(-2px); color: var(--c-lake-600); }
+.adm-mini--danger:hover { background: rgba(255, 194, 212, 0.6); color: #a4506e; }
+.adm-mini--good:hover { background: rgba(168, 207, 142, 0.55); color: #3f6b34; }
+
+/* ==========================================================================
+ * 6. 文章编辑器
+ * ========================================================================== */
+.adm-editor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.adm-editor textarea {
+  min-height: 380px;
+  font-family: var(--font-mono);
+  font-size: 13.2px;
+  line-height: 1.7;
+  resize: vertical;
+}
+.adm-preview {
+  min-height: 380px;
+  max-height: 620px;
+  overflow: auto;
+  padding: 16px 18px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.6);
+}
+.adm-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.adm-toolbar button { padding: 5px 12px; font-size: 12.4px; }
+
+/* 图片上传区 */
+.adm-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  border: 1px dashed rgba(99, 184, 148, 0.6);
+  background: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+  color: var(--c-ink-mute);
+}
+.adm-upload input[type="file"] { font-size: 12.6px; max-width: 100%; }
+.adm-thumb {
+  margin-top: 10px;
+  width: 180px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+.adm-thumb img { width: 100%; display: block; }
+
+/* 封面插画选择器 */
+.adm-arts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.adm-art {
+  width: 84px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform var(--trans), border-color var(--trans);
+  position: relative;
+}
+.adm-art:hover { transform: translateY(-3px); }
+.adm-art.is-active { border-color: var(--c-lake-400); }
+.adm-art img { display: block; width: 100%; }
+.adm-art span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2px 4px;
+  font-size: 10px;
+  text-align: center;
+  background: rgba(6, 32, 25, 0.55);
+  color: #eafff6;
+}
+
+/* ==========================================================================
+ * 7. 网站设置：分组卡片
+ * ========================================================================== */
+.adm-settings { display: grid; gap: var(--gap); }
+.adm-settings .adm-card { padding: 22px 24px; }
+.adm-nav-editor { display: grid; gap: 8px; }
+.adm-nav-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 1.4fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.adm-nav-row .field { padding: 8px 10px; font-size: 13px; }
+
+/* ==========================================================================
+ * 8. 响应式
+ * ========================================================================== */
+@media (max-width: 1000px) {
+  .adm-split { grid-template-columns: 1fr; }
+  .adm-editor { grid-template-columns: 1fr; }
+  .adm-editor textarea { min-height: 260px; }
+  .adm-preview { min-height: 200px; max-height: 360px; }
+}
+@media (max-width: 620px) {
+  .adm-card { padding: 16px; }
+  .adm-topbar { padding: 12px 14px; }
+  .adm-nav-row { grid-template-columns: 48px 1fr; }
+  .adm-item { flex-wrap: wrap; }
+  .adm-item__ops { width: 100%; justify-content: flex-end; }
+}
+
+/* ==========================================================================
+ * 9. 前台补充：文章底部的操作按钮（点赞 / 分享）
+ *    只有三行，属于前台样式，放在这里是为了不污染 style.css
+ * ========================================================================== */
+.post-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.8);
+}
+.post-actions .btn { font-size: 13.4px; }
+
+/* 留言板/评论的时间显示换行更好看 */
+.gb-item__time { white-space: nowrap; }
